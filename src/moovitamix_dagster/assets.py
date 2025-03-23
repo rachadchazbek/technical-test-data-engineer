@@ -53,29 +53,32 @@ def listen_history(context: AssetExecutionContext) -> list:
     return history_data
 
 
-@asset(
-    deps=["tracks", "users", "listen_history"]
-)
-def save_data_locally(
-    context: AssetExecutionContext, 
-    tracks: list, 
-    users: list, 
-    listen_history: list
-) -> None:
+def get_output_dir():
+    """Create and return the output directory path."""
+    output_dir = os.path.join(os.getcwd(), "data")
+    os.makedirs(output_dir, exist_ok=True)
+    return output_dir
+
+
+def get_timestamp():
+    """Generate timestamp string for filenames."""
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+@asset(deps=["tracks"])
+def save_tracks(context: AssetExecutionContext, tracks: list) -> str:
     """
-    Save all fetched data to local JSON files.
+    Save tracks data to a local JSON file.
     
     Args:
         context: Dagster execution context
         tracks: List of track records
-        users: List of user records
-        listen_history: List of listen history records
+        
+    Returns:
+        Path to the saved file
     """
-    output_dir = os.path.join(os.getcwd(), "data")
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # Add timestamp to filenames
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_dir = get_output_dir()
+    timestamp = get_timestamp()
     
     # Save tracks data
     tracks_file = os.path.join(output_dir, f"tracks_{timestamp}.json")
@@ -83,14 +86,52 @@ def save_data_locally(
         json.dump(tracks, f, indent=2, default=str)
     context.log.info(f"Saved tracks data to {tracks_file}")
     
+    return tracks_file
+
+
+@asset(deps=["users"])
+def save_users(context: AssetExecutionContext, users: list) -> str:
+    """
+    Save users data to a local JSON file.
+    
+    Args:
+        context: Dagster execution context
+        users: List of user records
+        
+    Returns:
+        Path to the saved file
+    """
+    output_dir = get_output_dir()
+    timestamp = get_timestamp()
+    
     # Save users data
     users_file = os.path.join(output_dir, f"users_{timestamp}.json")
     with open(users_file, "w") as f:
         json.dump(users, f, indent=2, default=str)
     context.log.info(f"Saved users data to {users_file}")
     
+    return users_file
+
+
+@asset(deps=["listen_history"])
+def save_listen_history(context: AssetExecutionContext, listen_history: list) -> str:
+    """
+    Save listen history data to a local JSON file.
+    
+    Args:
+        context: Dagster execution context
+        listen_history: List of listen history records
+        
+    Returns:
+        Path to the saved file
+    """
+    output_dir = get_output_dir()
+    timestamp = get_timestamp()
+    
     # Save listen history data
     history_file = os.path.join(output_dir, f"listen_history_{timestamp}.json")
     with open(history_file, "w") as f:
         json.dump(listen_history, f, indent=2, default=str)
     context.log.info(f"Saved listen history data to {history_file}")
+    
+    return history_file
