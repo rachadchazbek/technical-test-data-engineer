@@ -1,4 +1,11 @@
 import datetime
+import os
+import sys
+
+
+# Add the project root directory to Python path so imports work correctly
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from src.moovitamix_fastapi.classes_out import TracksOut, UsersOut, ListenHistoryOut, gender_list, genre_list
 
 # Testing TracksOut
