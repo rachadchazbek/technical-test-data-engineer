@@ -53,6 +53,14 @@ Les données extraites seront sauvegardées dans le dossier `data/` à la racine
 
 Pour une exécution quotidienne, on pourrait ajouter un schedule Dagster.
 
+### Étape 3: Tests unitaires
+
+Pour exécuter les tests:
+```bash
+# À exécuter depuis la racine du projet
+python -m pytest test/test_moovitamix_dagster.py
+```
+
 ## Questions (étapes 4 à 7)
 
 ### Étape 4
