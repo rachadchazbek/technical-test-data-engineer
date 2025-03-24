@@ -62,7 +62,9 @@ python -m pytest test/test_moovitamix_dagster.py
 ```
 
 ## Questions (étapes 4 à 7)
-### Étape 4 : Détailler le schéma de la base de données que vous utiliseriez pour stocker les informations récupérées des trois sources de données mentionnées plus tôt. Quel système de base de données recommanderiez-vous pour répondre à ces besoins et pourquoi?
+### Étape 4
+Détailler le schéma de la base de données que vous utiliseriez pour stocker les informations récupérées des trois sources de données mentionnées plus tôt. Quel système de base de données recommanderiez-vous pour répondre à ces besoins et pourquoi?
+
 
 Pour cette application de streaming musical, je recommanderais une approche hybride :
 
@@ -73,37 +75,61 @@ Cette approche hybride permet de tirer parti des forces des deux paradigmes de b
 
 - Utiliser **PostgreSQL** pour les données métier principales où la cohérence et les relations entre les entités sont fixes et critiques.
 - Utiliser **MongoDB** pour les analyses, les recommandations et le suivi du comportement des utilisateurs, où la flexibilité et l'évolutivité sont plus importantes.
-### Étape 5 : Suivi de la santé du pipeline de données
 
-Pour surveiller la santé du pipeline de données dans son exécution quotidienne, je propose une solution basée sur l'intégration de **Dagster**, **Prometheus**, et **Grafana**. Cette combinaison permet de collecter, stocker et visualiser les métriques clés du pipeline.
+### Étape 5
+Suivi de la santé du pipeline de données
 
-Some of the key metrics for Monitoring: 
+Pour surveiller la santé du pipeline de données dans son exécution quotidienne, je propose une solution basée sur l'intégration de **Dagster**, **Prometheus** et **Grafana**. Cette combinaison permet de collecter, stocker et visualiser les métriques clés du pipeline.
 
-1. Business Metrics
-- User Growth: Rate of new user additions
-- Content Growth: Rate of new track additions
-- Engagement Metrics: Changes in listening patterns
+#### Principales métriques à surveiller :
 
-2. Performance Metrics
-- API Response Time: Time taken for each API endpoint request
-- Resource Utilization: CPU, memory, and disk usage during pipeline execution
-- Asset Duration: Execution time for each individual asset
+1. **Métriques métier** :
+    - Croissance des utilisateurs : Taux d'ajout de nouveaux utilisateurs.
+    - Croissance du contenu : Taux d'ajout de nouveaux morceaux.
+    - Engagement : Évolution des habitudes d'écoute.
 
-3. Reliability Metrics
-- Asset Materialization Success: Success/failure rate for each asset
-- Record Counts: Number of records processed for tracks, users, and listen_history
-- Data Freshness: Time since last successful data refresh
-- Schema Validation: Count of records failing schema validation
+2. **Métriques de performance** :
+    - Temps de réponse de l'API : Durée des requêtes pour chaque point de terminaison.
+    - Utilisation des ressources : Consommation de CPU, mémoire et disque pendant l'exécution du pipeline.
+    - Durée des assets : Temps d'exécution pour chaque asset individuel.
 
-We can also implement a Alert Strategy: 
-- API connectivity issues
-- Pipelines failures
-- Data freshness exceding 24h
+3. **Métriques de fiabilité** :
+    - Succès de matérialisation des assets : Taux de succès/échec pour chaque asset.
+    - Comptage des enregistrements : Nombre d'enregistrements traités pour les morceaux, utilisateurs et historique d'écoute.
+    - Fraîcheur des données : Temps écoulé depuis la dernière actualisation réussie des données.
+    - Validation du schéma : Nombre d'enregistrements échouant à la validation du schéma.
 
-### Étape 6 Dessinez et/ou expliquez comment vous procèderiez pour automatiser le calcul des recommandations.
+#### Stratégie d'alerte :
 
-_votre réponse ici_
+Des alertes peuvent être configurées pour les cas suivants :
+- Problèmes de connectivité avec l'API.
+- Échecs dans l'exécution des pipelines.
+- Fraîcheur des données dépassant 24 heures.
 
-### Étape 7 Dessinez et/ou expliquez comment vous procèderiez pour automatiser le réentrainement du modèle de recommandation.
+### Étape 6
+Dessinez et/ou expliquez comment vous procèderiez pour automatiser le calcul des recommandations.
 
-_votre réponse ici_
+En s'appuyant sur notre pipeline existant basé sur Dagster, j'ajouterais de nouveaux assets dédiés au traitement des recommandations. Ces assets extrairaient des caractéristiques significatives à partir des données disponibles (par exemple : historique d'écoute, préférences des utilisateurs, similarité entre les morceaux). Ensuite, j'implémenterais des stratégies de recommandation, telles que :
+
+- Recommander des morceaux similaires à ceux appréciés par l'utilisateur.
+- Proposer des playlists personnalisées basées sur les habitudes d'écoute.
+
+Le pipeline de recommandations serait configuré pour s'exécuter selon un calendrier approprié (par exemple : génération quotidienne de playlists personnalisées pour chaque utilisateur: daily mix) ou déclenché par des événements spécifiques (par exemple : lorsqu'un utilisateur demande une station basée sur une track ou artist).
+
+### Étape 7 
+Dessinez et/ou expliquez comment vous procèderiez pour automatiser le réentrainement du modèle de recommandation.
+
+Pour automatiser le réentrainement des modèles de recommandation, je mettrais en place un système capable de surveiller les performances des modèles, de déclencher un réentrainement lorsque nécessaire (par exemple : dégradation des performances) ou selon un calendrier prédéfini. Ce système gérerait également le déploiement des modèles mis à jour.
+
+Ce processus s'intégrerait dans notre pipeline de données existant et comprendrait :
+
+- **Collecte des données** : Utilisation des assets Dagster existants pour collecter les données nécessaires (morceaux, utilisateurs, historique d'écoute).
+- **Stockage** : Utilisation d'une base de données NoSQL pour stocker les métriques et les données liées aux recommandations.
+- **Surveillance** : Intégration avec Prometheus et Grafana pour suivre les performances des modèles (par exemple : précision des recommandations, taux d'engagement des utilisateurs).
+
+
+### 📌 **Remarques finales**  
+- Ce travail m’a pris entre **2 et 3 heures** à réaliser sans incluant le temps que j'ai passé sur essayer airflow. 
+- J’ai utilisé **ChatGPT** et **GitHub Copilot** pour m'aider à générer rapidement du texte et du code.
+
+- **Tous les sujets abordés et idées exprimés ici sont mes propres idées et réflexions.**
