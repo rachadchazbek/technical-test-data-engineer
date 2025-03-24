@@ -11,15 +11,15 @@ import tempfile
 from unittest.mock import patch
 from dagster import build_op_context
 
-# Add the project root directory to Python path so imports work correctly
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# Add the directory containing classes_out.py to the Python path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../src/moovitamix_fastapi'))
+
+from src.moovitamix_fastapi.generate_fake_data import FakeDataGenerator
 from src.moovitamix_dagster.assets import (
     tracks, users, listen_history, fetch_api_data,
     save_tracks, save_users, save_listen_history
 )
-from src.moovitamix_fastapi.generate_fake_data import FakeDataGenerator
-
 
 @pytest.fixture
 def fake_data():

@@ -11,8 +11,7 @@ python -m venv venv
 # Activation de l'environnement virtuel
 # Sur Linux/macOS:
 source venv/bin/activate
-# Sur Windows:
-# venv\Scripts\activate
+
 
 # Installation des dépendances
 pip install -r requirements.txt
@@ -129,7 +128,6 @@ Ce processus s'intégrerait dans notre pipeline de données existant et comprend
 
 
 ### 📌 **Remarques finales**  
-- Ce travail m’a pris entre **2 et 3 heures** à réaliser sans incluant le temps que j'ai passé sur essayer airflow. 
+- Ce travail m’a pris entre **3 heures** à réaliser excluant le temps que j'ai passé à essayer airflow. 
 - J’ai utilisé **ChatGPT** et **GitHub Copilot** pour m'aider à générer rapidement du texte et du code.
-
 - **Tous les sujets abordés et idées exprimés ici sont mes propres idées et réflexions.**
