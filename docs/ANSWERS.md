@@ -62,19 +62,48 @@ python -m pytest test/test_moovitamix_dagster.py
 ```
 
 ## Questions (étapes 4 à 7)
+### Étape 4 : Détailler le schéma de la base de données que vous utiliseriez pour stocker les informations récupérées des trois sources de données mentionnées plus tôt. Quel système de base de données recommanderiez-vous pour répondre à ces besoins et pourquoi?
 
-### Étape 4
+Pour cette application de streaming musical, je recommanderais une approche hybride :
+
+- **PostgreSQL** pour les données transactionnelles principales (SQL)
+- **MongoDB** pour les fonctionnalités analytiques et de recommandations (NoSQL)
+
+Cette approche hybride permet de tirer parti des forces des deux paradigmes de bases de données :
+
+- Utiliser **PostgreSQL** pour les données métier principales où la cohérence et les relations entre les entités sont fixes et critiques.
+- Utiliser **MongoDB** pour les analyses, les recommandations et le suivi du comportement des utilisateurs, où la flexibilité et l'évolutivité sont plus importantes.
+### Étape 5 : Suivi de la santé du pipeline de données
+
+Pour surveiller la santé du pipeline de données dans son exécution quotidienne, je propose une solution basée sur l'intégration de **Dagster**, **Prometheus**, et **Grafana**. Cette combinaison permet de collecter, stocker et visualiser les métriques clés du pipeline.
+
+Some of the key metrics for Monitoring: 
+
+1. Business Metrics
+- User Growth: Rate of new user additions
+- Content Growth: Rate of new track additions
+- Engagement Metrics: Changes in listening patterns
+
+2. Performance Metrics
+- API Response Time: Time taken for each API endpoint request
+- Resource Utilization: CPU, memory, and disk usage during pipeline execution
+- Asset Duration: Execution time for each individual asset
+
+3. Reliability Metrics
+- Asset Materialization Success: Success/failure rate for each asset
+- Record Counts: Number of records processed for tracks, users, and listen_history
+- Data Freshness: Time since last successful data refresh
+- Schema Validation: Count of records failing schema validation
+
+We can also implement a Alert Strategy: 
+- API connectivity issues
+- Pipelines failures
+- Data freshness exceding 24h
+
+### Étape 6 Dessinez et/ou expliquez comment vous procèderiez pour automatiser le calcul des recommandations.
 
 _votre réponse ici_
 
-### Étape 5
-
-_votre réponse ici_
-
-### Étape 6
-
-_votre réponse ici_
-
-### Étape 7
+### Étape 7 Dessinez et/ou expliquez comment vous procèderiez pour automatiser le réentrainement du modèle de recommandation.
 
 _votre réponse ici_

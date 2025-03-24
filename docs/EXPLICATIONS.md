@@ -32,3 +32,23 @@ En cherchant des alternatives, j'ai découvert Dagster. Après avoir consulté l
 - **test_save_tracks** : Vérifie que les données des pistes sont correctement sauvegardées dans un fichier JSON.
 - **test_save_users** : S'assure que les données des utilisateurs sont écrites dans le système de fichiers.
 - **test_save_listen_history** : Teste la sauvegarde des données d'historique d'écoute.
+
+
+# Why PostgreSQL for core data:
+- Strong data integrity with ACID compliance
+- Well-defined relationships between users, tracks, and listening history
+- Efficient querying for common operations (user lookups, track details)
+- Support for complex joins when generating reports
+- Mature ecosystem with excellent tooling
+
+# Why MongoDB for analytics:
+- Flexible schema for evolving data requirements
+- Better handling of semi-structured data
+- Efficient storage of listening history as arrays
+- Horizontal scaling for high-volume write operations
+- Better performance for read-heavy analytics workloads
+
+# Monitoring
+[Prometheus](https://prometheus.io/)
+[Grafana](https://grafana.com/?src=ggl-s&mdm=cpc&cnt=99878325494&camp=b-grafana-exac-amer&trm=grafana
+
