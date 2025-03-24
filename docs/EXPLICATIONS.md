@@ -14,6 +14,11 @@ J'ai trouvé que Dagster a Principled architecture: Designed from the ground up 
 
 En cherchant des alternatives, j'ai découvert Dagster. Après avoir consulté la documentation, j'ai pu implémenter une solution fonctionnelle en moins de 30 minutes. Bien que Dagster puisse avoir des limitations que je n'ai pas encore découvertes, il s'est avéré parfaitement adapté pour mes besoins d'orchestration simples, permettant une matérialisation efficace des assets et une mise en place rapide du pipeline.
 
+Voici une capture d'écran des assets dans dagster web: 
+
+![Assets Diagram](./Assets_SS.png)
+
+
 ## Implémentation des tests unitaires
 
 ### Tests de la fonction d'extraction de données (TestFetchApiData)
